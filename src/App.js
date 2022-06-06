@@ -1,23 +1,39 @@
-import logo from './logo.svg';
+import { useState, useEffect} from 'react';
 import './App.css';
+import Studentlist from './Component/Students'
+import Test from './Component/Test'
 
 function App() {
+  const url = "https://api.hatchways.io/assessment/students"
+  const [studentlist, setStudentlist] = useState([])
+  const getStudents = async() => {
+    const response = await fetch(url)
+    const data = await response.json()
+    setStudentlist(data)
+    console.log(data)
+    console.log(setStudentlist)
+  }
+
+  useEffect (() => {getStudents()}, [])
+ console.log(studentlist)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      {studentlist.students.map((student, index) => {
+           return(
+             <div>
+                <img src={student.pic} />
+                <h1>{student.firstName} {student.lastName}</h1>
+                <p>Email: {student.email}</p>
+                <p>Company: {student.company}</p>
+                <p>Skill: {student.skill}</p>
+                <p>average: {student.grades.reduce((a, b) => a + parseInt(b), 0) / student.grades.length}</p>
+             </div>
+             
+           )
+         })}
+      
+     
     </div>
   );
 }
