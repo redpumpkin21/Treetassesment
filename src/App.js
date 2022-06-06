@@ -18,7 +18,7 @@ function App() {
  console.log(studentlist)
   return (
     <div className="App">
-      <p>yo</p>
+      
       {studentlist.students.map((student, index) => {
            return(
              <div>
